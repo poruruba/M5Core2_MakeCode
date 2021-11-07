@@ -220,6 +220,12 @@ public:
                                 { return t.id == id; }),
                  timers.end());
   }
+  void RemoveAll(JSContext *ctx){
+    for (auto &ent : timers){
+      JS_FreeValue(ctx, ent.func);
+    }
+    timers.clear();
+  }
   int32_t GetNextTimeout(int32_t now)
   {
     if (timers.empty())
@@ -306,24 +312,7 @@ public:
 
   void end()
   {
-    if (JS_IsFunction(ctx, loop_func))
-    {
-      JS_FreeValue(ctx, loop_func);
-      loop_func = JS_UNDEFINED;
-    }
-    for( int i = 0 ; i < NUM_OF_BUTTONS ; i++ ){
-      if (JS_IsFunction(ctx, btnX_func[i]))
-      {
-        JS_FreeValue(ctx, btnX_func[i]);
-        btnX_func[i] = JS_UNDEFINED;
-      }
-    }
-    if (JS_IsFunction(ctx, touch_func))
-    {
-      JS_FreeValue(ctx, touch_func);
-      touch_func = JS_UNDEFINED;
-    }
-
+    timer.RemoveAll(ctx);
     JS_FreeContext(ctx);
     JS_FreeRuntime(rt);
   }
