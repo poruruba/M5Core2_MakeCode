@@ -101,11 +101,11 @@ void loop() {
   qjs.loop(); // For timer, async, etc.
 
   if( switch_jscode ){
-    webSocket.close();
-    Serial.println("Rebooting");
-    delay(1000);
-    esp_restart();
-    return;
+//     webSocket.close();
+//     Serial.println("Rebooting");
+//     delay(1000);
+//     esp_restart();
+//     return;
 
     qjs.end();
     Serial.println("QuickJS stopped");
